@@ -15,13 +15,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import io.flutter.FlutterInjector;
 import io.flutter.embedding.android.FlutterEngineProvider;
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.embedding.engine.FlutterEngineCache;
 import io.flutter.embedding.engine.FlutterJNI;
 import io.flutter.embedding.engine.dart.DartExecutor;
 import io.flutter.embedding.engine.loader.FlutterLoader;
-import io.flutter.view.FlutterMain;
 
 public class FlutterBoost {
     public static final String ENGINE_ID = "flutter_boost_default_engine";
@@ -59,6 +59,7 @@ public class FlutterBoost {
     }
 
     public void setup(Application application, FlutterBoostDelegate delegate, Callback callback, FlutterBoostSetupOptions options) {
+        FlutterInjector.instance().flutterLoader().startInitialization(this);
         if (options == null) {
             options = FlutterBoostSetupOptions.createDefault();
         }
@@ -88,7 +89,7 @@ public class FlutterBoost {
             // Pre-warm the cached FlutterEngine.
             engine.getNavigationChannel().setInitialRoute(options.initialRoute());
             engine.getDartExecutor().executeDartEntrypoint(new DartExecutor.DartEntrypoint(
-                    FlutterMain.findAppBundlePath(), options.dartEntrypoint()), options.dartEntrypointArgs());
+                    FlutterInjector.instance().flutterLoader().findAppBundlePath(), options.dartEntrypoint()), options.dartEntrypointArgs());
         }
         if (callback != null) callback.onStart(engine);
 
