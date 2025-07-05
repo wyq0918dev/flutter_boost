@@ -59,7 +59,7 @@ public class FlutterBoost {
     }
 
     public void setup(Application application, FlutterBoostDelegate delegate, Callback callback, FlutterBoostSetupOptions options) {
-        FlutterInjector.instance().flutterLoader().startInitialization(this);
+        FlutterInjector.instance().flutterLoader().startInitialization(application);
         if (options == null) {
             options = FlutterBoostSetupOptions.createDefault();
         }
